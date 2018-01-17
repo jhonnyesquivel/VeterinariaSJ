@@ -1,0 +1,54 @@
+CREATE TABLE cliente (
+  documento BIGINT NOT NULL,
+  nombre TEXT ,
+  direccion TEXT ,
+  telefono CHARACTER(15) ,
+  PRIMARY KEY(documento)
+);
+
+CREATE TABLE gastos (
+  id_gasto CHAR(10) NOT NULL   ,
+  monto FLOAT ,
+  descripcion CHAR(30) ,
+  fecha DATE ,
+  PRIMARY KEY(id_gasto)
+);
+
+
+CREATE TABLE servicio (
+  id_servicio CHAR(10) NOT NULL   ,
+  nombre CHAR(30) ,
+  costo_actual FLOAT ,
+  PRIMARY KEY(id_servicio)
+);
+
+CREATE TABLE veterinario (
+  identificacion  CHAR(10) NOT NULL   ,
+  nombre TEXT ,
+  especialidad CHAR(25) ,
+  PRIMARY KEY(identificacion )
+);
+
+CREATE TABLE mascota (
+  id_mascota CHAR(10) NOT NULL    ,
+  cliente_documento BIGINT NOT NULL  ,
+  nombre CHAR(20) ,
+  sexo CHAR(6) ,
+  raza CHAR(30) ,
+  fecha_nacimiento DATE ,
+  peso FLOAT ,
+  PRIMARY KEY(id_mascota, cliente_documento),
+  FOREIGN KEY (cliente_documento) references cliente(documento));
+
+
+CREATE TABLE mascota_has_servicio (
+  mascota_cliente_documento BIGINT NOT NULL ,
+  mascota_id_mascota CHAR(10) NOT NULL ,
+  servicio_id_servicio CHAR(10) NOT NULL ,
+  costo_BIGINT FLOAT ,
+  fecha DATE NOT NULL,
+  veretinario_id_veterinario character(10) NOT NULL,
+  PRIMARY KEY(mascota_cliente_documento, mascota_id_mascota, servicio_id_servicio, veretinario_id_veterinario, fecha),
+  FOREIGN KEY (mascota_cliente_documento, mascota_id_mascota) references mascota(cliente_documento, id_mascota),
+  FOREIGN KEY(servicio_id_servicio) references servicio(id_servicio),
+  FOREIGN KEY(veretinario_id_veterinario)references veterinario(identificacion));
